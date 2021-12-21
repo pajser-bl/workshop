@@ -1,26 +1,12 @@
 import uvicorn
-from fastapi import FastAPI
-from fastapi_socketio import SocketManager
-from starlette.middleware.cors import CORSMiddleware
+from core import app, router
 
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+app.include_router(
+    router,
+    prefix='/events',
+    tags=['Events']
 )
-
-socket_manager = SocketManager(app=app,
-                               async_mode="asgi",
-                               cors_allowed_origins="*")
-
-
-@app.get('/')
-def index():
-    return '1337'
 
 
 if __name__ == '__main__':
